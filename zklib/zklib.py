@@ -218,7 +218,7 @@ class ZKLib:
         buf_b = self.createtop(MACHINE_PREPARE_DATA_1,MACHINE_PREPARE_DATA_2,client_length,0)
     
         buf_a = self.createCacheHeader(command, chksum, session_id,reply_id,command_string)
-        buf = buf_b+buf_a+END_TAG
+        buf = buf_b+buf_a
         print buf.encode('hex')
         self.zkclient.send(buf)
         try:
