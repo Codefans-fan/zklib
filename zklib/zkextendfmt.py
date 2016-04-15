@@ -14,7 +14,6 @@ def zkextendfmt(self):
     
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
     buf = buf_b+buf_a+END_TAG
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
         #testres = '5050827D15000000D0075ECB631903007E457874656E64466D743D3000'.decode('hex')
@@ -38,11 +37,10 @@ def zkuserextfmt(self):
     
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
     buf = buf_b+buf_a
-    print buf.encode('hex')
-    #self.zkclient.send(buf)
+    self.zkclient.send(buf)
     try:
         testres = '5050827D16000000D007F4BE631910007E55736572457874466D743D3100'.decode('hex')
-        self.data_recv = testres   # self.zkclient.recv(1024)
+        self.data_recv = self.zkclient.recv(1024)
         return self.data_recv[16:]
     except Exception as e:
         print e

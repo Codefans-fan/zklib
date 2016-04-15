@@ -19,7 +19,6 @@ def zkconnect(self):
     
     
     buf = buf_b+buf_a
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
         #testres = '5050827D08000000D007CCDE63190000'.decode('hex')
@@ -46,7 +45,6 @@ def zkdisconnect(self):
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
     
     buf = buf_b+buf_a
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
         self.data_recv = self.zkclient.recv(1024)

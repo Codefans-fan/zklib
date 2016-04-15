@@ -17,7 +17,6 @@ def zkfreedata(self):
 	
 	buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
 	buf = buf_b + buf_a
-	print buf.encode('hex')
 	self.zkclient.send(buf)
 	try:
 		#testres ='5050827D09000000D007B8DE63190B0009'.decode('hex')
@@ -41,7 +40,6 @@ def zkfinalaws(self):
 	
 	buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
 	buf = buf_b + buf_a
-	print buf.encode('hex')
 	self.zkclient.send(buf)
 	try:
 		#testres ='5050827D09000000D007B8DE63190B0009'.decode('hex')

@@ -16,7 +16,6 @@ def zkpinwidth(self):
     
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
     buf = buf_b + buf_a
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
         #testres ='5050827D15000000D007A9E263190E007E50494E3257696474683D3900'.decode('hex')

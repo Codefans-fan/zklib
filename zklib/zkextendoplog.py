@@ -23,7 +23,6 @@ def zkextendoplog(self,recommand=None,index=0):
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
     
     buf = buf_b+buf_a+END_TAG
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
 #         if index ==0:

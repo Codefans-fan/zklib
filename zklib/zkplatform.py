@@ -43,7 +43,6 @@ def zkplatformVersion(self):
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
 
     buf = buf_b+buf_a+END_TAG
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
 #         if reply_id > 16:
@@ -70,7 +69,6 @@ def zkfirmwareVersion(self):
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
     
     buf = buf_b+buf_a
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
         
@@ -80,7 +78,6 @@ def zkfirmwareVersion(self):
 #             testres = '5050827D1B000000D0070D946319010056657220362E363020286275696C6433392900'.decode('hex')
        
         self.data_recv =  self.zkclient.recv(1024)
-        print self.data_recv.encode('hex')
         return self.data_recv[16:]
     except Exception as e:
         print e
@@ -102,7 +99,6 @@ def zkisonlyrf(self):
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
     
     buf = buf_b+buf_a
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
         
