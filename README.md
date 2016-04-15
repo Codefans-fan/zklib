@@ -1,5 +1,6 @@
 # zklib
-Attendance Machine Libraries. Connection to the network using the TCP protocol and port 4370
+Connection to the network using the TCP protocol and port 4370.
+python script
 
 
 config the scrip zkMachine. 
