@@ -23,6 +23,10 @@ if you get the print. it means connect success.
 >~OS=1
 
 
+By the way,
+This version only can connect to the machine. To parse the data need some more work.
+
+
 #Donate
 ![image](https://github.com/Codefans-fan/zklib/blob/master/donate.png)
 
