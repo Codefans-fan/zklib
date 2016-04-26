@@ -27,6 +27,9 @@ if you get the print. it means connect success.
 #Note
 This version only can connect to the machine. To parse the data need some more work.
 
+2016-04-26: Add method to get current lock in user (when user lock in, this script will print the use info ).
+
+
 
 #Donate
 ![image](https://github.com/Codefans-fan/zklib/blob/master/donate.png)
