@@ -13,9 +13,8 @@ from zkworkcode import zkworkcode
 from zkssr import zkssr
 from zkpin import zkpinwidth
 from zkface import zkfaceon
-from zkdevice import zkdevicename,zkdisabledevice,zkenabledevice
 from zkfreedata import zkfinalaws,zkfreedata
-from zkconst import USHRT_MAX,CMD_ACK_OK,MACHINE_PREPARE_DATA_1,MACHINE_PREPARE_DATA_2,END_TAG
+from zkconst import USHRT_MAX,CMD_ACK_OK,MACHINE_PREPARE_DATA_1,MACHINE_PREPARE_DATA_2,parse_time
 class ZKLib:
     
     def __init__(self, ip, port):
@@ -79,7 +78,7 @@ class ZKLib:
         buf = unpack('8B'+'%sB' % len(command_string), buf+command_string)
           
         chksum = unpack('H', self.createChkSum(buf))[0] +1
-        print chksum
+        #print chksum
         #print unpack('H', self.createChkSum(buf))
         reply_id += 1
         if reply_id >= USHRT_MAX:
@@ -93,6 +92,7 @@ class ZKLib:
         command = unpack('HHHH', reply[8:16])[0]
 
         if command == CMD_ACK_OK:
+            self.isAlive = True
             print "CMD_ACK_OK"
             return True
         else:
@@ -109,31 +109,23 @@ class ZKLib:
         zkconnect(self)
         time.sleep(0.1)
         firmwareVersion = self.firmwareVersion()
-        print firmwareVersion
         time.sleep(0.1)
         os = self.osversion()
-        print os
         time.sleep(0.1)
         extendfmt = self.extendFormat()
-        print extendfmt
         time.sleep(0.1)
         extendoplog = self.extendOPLog()
-        print extendoplog
         time.sleep(0.1)
         
         platform = self.platform()
-        print platform
         time.sleep(0.1)
         fmversion = self.fmVersion()
-        print fmversion
         time.sleep(0.1)
         
         freedata = self.freeData()
-        print freedata.encode('hex')
         time.sleep(0.1)
         
         workcode = self.workCode()
-        print workcode
         time.sleep(0.1)
         fil = self.finalaws()
         return self.checkValid(self.data_recv)
@@ -183,30 +175,25 @@ class ZKLib:
     def faceFunctionOn(self):
         return zkfaceon(self)
     
-    def deviceName(self):
-        return zkdevicename(self)
-        
-    def disableDevice(self):
-        return zkdisabledevice(self)
-    
-    def enableDevice(self):
-        return zkenabledevice(self)
-        
-
     def freeData(self):
         return zkfreedata(self)
 
     def zkrecvCurrentAtt(self):
         try:
-            while True:
-                data = self.zkclient.recv(1024)
-                res = unpack('HHHH',data[8:16])
-                if res[0] == 500 and res[2] == 2: #simple check 
-                    self.zksendCache(0)
-                    self.zksendCache(1)
+            data = self.zkclient.recv(1024)
+            res = unpack('HHHH',data[8:16])
+            if res[0] == 500 and res[2] == 2: #simple check 
+                att_log = self.zksendCache(0)
+                self.zksendCache(1)
+                return att_log
+            elif res[3] != 0:
+                self.data_recv = data
+                print data[16:]
+                return True
         except Exception as e:
             self.disconnect()
-        
+    
+    
     def zksendCache(self,index):
         command = 2000
         command_string = ''
@@ -219,13 +206,17 @@ class ZKLib:
     
         buf_a = self.createCacheHeader(command, chksum, session_id,reply_id,command_string)
         buf = buf_b+buf_a
-        print buf.encode('hex')
         self.zkclient.send(buf)
         try:
             #testres = '5050827D15000000D0075ECB631903007E457874656E64466D743D3000'.decode('hex')
             if index == 0:
                 data = self.zkclient.recv(1024)
-                print data
+                # get att log time
+                if unpack('HHHH', data[:8])[2] > 40:
+                    uid = data[16:18].split('\x00', 1)[0]
+                    lock_time = parse_time(data[42:48].encode('hex'))
+                    return (uid, lock_time.strftime('%Y-%m-%d %H:%M:%S'))
+            return None
         except Exception as e:
             print e
             self.disconnect()

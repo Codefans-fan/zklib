@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime
 
 USHRT_MAX = 65535
 
@@ -69,3 +69,17 @@ def decode_time(t):
     d = datetime(year, month, day, hour, minute, second)
 
     return d
+
+def parse_time(t):
+    
+    year = int(t[:2],16)+2000
+    month = int(t[2:4],16)
+    day = int(t[4:6],16)
+    hour = int(t[6:8],16)
+    minute = int(t[8:10],16)
+    second = int(t[10:12],16)
+    
+    return datetime(year, month, day, hour, minute, second)
+    
+if __name__=='__main__':
+    print parse_time('10040f110d36').strftime('%Y-%m-%d %H:%M:%S')

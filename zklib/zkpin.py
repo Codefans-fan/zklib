@@ -1,7 +1,7 @@
 from struct import pack, unpack
 from datetime import datetime, date
 
-from zkconst import *
+from zkconst import CMD_DEVICE,MACHINE_PREPARE_DATA_1,MACHINE_PREPARE_DATA_2,END_TAG
 
 def zkpinwidth(self):
     """Start a connection with the time clock"""
@@ -15,7 +15,7 @@ def zkpinwidth(self):
     buf_b = self.createtop(MACHINE_PREPARE_DATA_1,MACHINE_PREPARE_DATA_2,client_length,0)
     
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
-    buf = buf_b + buf_a
+    buf = buf_b + buf_a + END_TAG
     self.zkclient.send(buf)
     try:
         #testres ='5050827D15000000D007A9E263190E007E50494E3257696474683D3900'.decode('hex')
@@ -25,4 +25,3 @@ def zkpinwidth(self):
         print e
         self.disconnect()
         return False
-    

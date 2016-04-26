@@ -16,7 +16,6 @@ def zkworkcode(self):
     
     buf_a = self.createHeader(command, chksum, session_id,reply_id,command_string)
     buf = buf_b + buf_a + END_TAG
-    print buf.encode('hex')
     self.zkclient.send(buf)
     try:
         #testres ='5050827D13000000D00711FF63190C00576F726B436F64653D3000'.decode('hex')
