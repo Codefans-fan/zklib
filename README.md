@@ -30,6 +30,9 @@ This version only can connect to the machine. To parse the data need some more w
 2016-04-26: Add method to get current lock in user (when user lock in, this script will print the use info ).
 
 
+#BTW
+If you have any question, please create issue. Thanks.
+
 
 #Donate
 ![image](https://github.com/Codefans-fan/zklib/blob/master/donate.png)
