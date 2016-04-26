@@ -23,7 +23,8 @@ if you get the print. it means connect success.
 >~OS=1
 
 
-By the way,
+
+#Note
 This version only can connect to the machine. To parse the data need some more work.
 
 
