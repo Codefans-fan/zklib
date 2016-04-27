@@ -80,6 +80,15 @@ def parse_time(t):
     second = int(t[10:12],16)
     
     return datetime(year, month, day, hour, minute, second)
+
+
+def reverseHex(hexstr):
+    tmp = ''
+    for i in reversed( xrange( len(hexstr)/2 ) ):
+        tmp += hexstr[i*2:(i*2)+2]
     
+    return tmp
+
 if __name__=='__main__':
-    print parse_time('10040f110d36').strftime('%Y-%m-%d %H:%M:%S')
+    print   decode_time(int(reverseHex("ED 43 99 1E ".replace(' ', '')),16))
+    #print parse_time('10040f110d36').strftime('%Y-%m-%d %H:%M:%S')
