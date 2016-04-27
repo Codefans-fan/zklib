@@ -3,6 +3,10 @@ from struct import pack, unpack
 from zkconst import CMD_ATTLOG_RQ,MACHINE_PREPARE_DATA_1,MACHINE_PREPARE_DATA_2,END_TAG,CMD_ATTLOG_RQ_PRE,CMD_ATTLOG_RQ_START
 from zkconst import decode_time,reverseHex
 
+
+# att log need append to when received every package.
+# to be done....
+
 def getAttendanceRQ(self):
     command = CMD_ATTLOG_RQ
     command_string = ''
